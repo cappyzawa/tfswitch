@@ -14,12 +14,22 @@ This tool can also switch the terraform version. This tool runs terraform binary
 
 ## How to use
 
+### Install
+
+```bash
+go get github.com/cappyzawa/tfswitch/cmd/tfswitch
+```
+
+or download from [Releases · cappyzawa/tfswitch](https://github.com/cappyzawa/tfswitch/releases).
+
+### Use
+
 ```bash
 tfswitch [version]
 # e.g., If you want to use 0.14.4
 tfswitch 0.14.4
 ```
 
-### Available Environments
+#### Available Environments
 
 * `XDG_DATA_HOME` (Default: `~/.local/share`): The specified version of `terraform` will be saved as `$XDG_DATA_HOME/tfswitch/terraform_[version]`
