@@ -25,9 +25,17 @@ or download from [Releases · cappyzawa/tfswitch](https://github.com/cappyzawa/t
 ### Use
 
 ```bash
-tfswitch [version]
+$ tfswitch [version]
 # e.g., If you want to use 0.14.4
-tfswitch 0.14.4
+$ tfswitch 0.14.4
+Switched terraform version to 0.14.4
+
+# This tool creates or replaces symbolic links.
+$ ls -l `which terraform`
+lrwxr-xr-x  1 cappyzawa  admin  54 Jan 14 20:14 /usr/local/bin/terraform@ -> /Users/cappyzawa/.local/share/tfswitch/terraform_0.14.4
+$ tfswitch 0.14.3
+$ ls -l `which terraform`
+lrwxr-xr-x  1 cappyzawa  admin  54 Jan 14 20:18 /usr/local/bin/terraform@ -> /Users/cappyzawa/.local/share/tfswitch/terraform_0.14.3
 ```
 
 #### Available Environments
