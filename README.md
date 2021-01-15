@@ -10,7 +10,8 @@
 
 However, There is an issue that it takes extra time to execute the command. (This is reffered by [terraform executions delayed by ~ 1 second · Issue \#196 · tfutils/tfenv](https://github.com/tfutils/tfenv/issues/196)). If you want to display the terraform version in the prompt, you will have to wait almost a second every time the it is updated.
 
-This tool can also switch the terraform version. This tool runs terraform binary from https://releases.hashicorp.com/terraform/ directly. (`tfenv` runs own script instead of binary.)
+This tool can also switch the terraform version. This installs binary from https://releases.hashicorp.com/terraform/ if specified version does not found in your machine. 
+`tfenv` runs own script instead of binary, but this tool runs binary directly.
 
 ## How to use
 
