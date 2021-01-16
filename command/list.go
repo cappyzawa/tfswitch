@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/mitchellh/cli"
 )
@@ -30,8 +29,9 @@ func (c *listCommand) Run(args []string) int {
 	}
 	files, _ := ioutil.ReadDir(tfDataPATH)
 	for _, f := range files {
-		version := strings.ReplaceAll(f.Name(), "terraform_", "")
-		c.ui.Output(version)
+		if f.IsDir() {
+			c.ui.Output(f.Name())
+		}
 	}
 	return 0
 }

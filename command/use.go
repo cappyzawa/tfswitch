@@ -49,7 +49,9 @@ func (c *useCommand) Run(args []string) int {
 }
 
 func installOrExtractTerraform(dataHome string, version string) (string, error) {
-	tfDataPATH := filepath.Join(dataHome, "tfswitch")
+
+	// e.g., tfDataPATH = $HOME/.local/share/tfswitch/0.14.4
+	tfDataPATH := filepath.Join(dataHome, "tfswitch", version)
 	if err := os.MkdirAll(tfDataPATH, 0755); err != nil {
 		return "", err
 	}
@@ -57,11 +59,7 @@ func installOrExtractTerraform(dataHome string, version string) (string, error) 
 	if err != nil {
 		return "", err
 	}
-	renamedExecPATH := fmt.Sprintf("%s_%s", execPATH, version)
-	if err := os.Rename(execPATH, renamedExecPATH); err != nil {
-		return "", err
-	}
-	return renamedExecPATH, nil
+	return execPATH, nil
 }
 
 func updateSymlink(oldname, newname string) error {
