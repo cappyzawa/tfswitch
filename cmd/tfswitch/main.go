@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 	"os"
+	"runtime/debug"
 
 	"github.com/cappyzawa/tfswitch/command"
 	"github.com/mitchellh/cli"
@@ -32,7 +33,7 @@ func (r *runnner) Run(args []string) int {
 		},
 	}
 
-	c := cli.NewCLI(args[0], "0.0.1")
+	c := cli.NewCLI(args[0], version())
 	c.Args = args[1:]
 	factories := command.Factories{
 		UI:       ui,
@@ -46,6 +47,14 @@ func (r *runnner) Run(args []string) int {
 		ui.Error(err.Error())
 	}
 	return exitStatus
+}
+
+func version() string {
+	info, ok := debug.ReadBuildInfo()
+	if !ok {
+		return "(devel)"
+	}
+	return info.Main.Version
 }
 
 func main() {
