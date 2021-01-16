@@ -13,6 +13,10 @@ const (
 	tfPATH = "/usr/local/bin/terraform"
 )
 
+var (
+	version string
+)
+
 type runnner struct {
 	out io.Writer
 	in  io.Reader
@@ -33,7 +37,10 @@ func (r *runnner) Run(args []string) int {
 		},
 	}
 
-	c := cli.NewCLI(args[0], version())
+	if version == "" {
+		version = getVersion()
+	}
+	c := cli.NewCLI(args[0], version)
 	c.Args = args[1:]
 	factories := command.Factories{
 		UI:       ui,
@@ -49,7 +56,7 @@ func (r *runnner) Run(args []string) int {
 	return exitStatus
 }
 
-func version() string {
+func getVersion() string {
 	info, ok := debug.ReadBuildInfo()
 	if !ok {
 		return "(devel)"

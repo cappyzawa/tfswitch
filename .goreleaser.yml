@@ -8,6 +8,8 @@ builds:
   - env:
       - CGO_ENABLED=0
     main: ./cmd/tfswitch/main.go
+    ldflags:
+      - '-s -w -X main.version=v{{.Version}}'
     goos:
       - linux
       - darwin
