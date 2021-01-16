@@ -24,11 +24,18 @@ go get github.com/cappyzawa/tfswitch/cmd/tfswitch
 or download from [Releases · cappyzawa/tfswitch](https://github.com/cappyzawa/tfswitch/releases).
 
 ### Use
+```bash
+$ tfswitch -h
+Usage: tfswitch [--version] [--help] <command> [<args>]
+
+Available commands are:
+    use    use specified terraform version.
+```
 
 ```bash
-$ tfswitch [version]
+$ tfswitch use [version]
 # e.g., If you want to use 0.14.4
-$ tfswitch 0.14.4
+$ tfswitch use 0.14.4
 Switched terraform version to 0.14.4
 
 # This tool creates or replaces symbolic links.

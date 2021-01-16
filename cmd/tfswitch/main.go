@@ -1,78 +1,51 @@
 package main
 
 import (
-	"context"
-	"fmt"
 	"io"
 	"os"
-	"path/filepath"
 
-	"github.com/hashicorp/terraform-exec/tfinstall"
+	"github.com/cappyzawa/tfswitch/command"
+	"github.com/mitchellh/cli"
 )
 
 const (
 	tfPATH = "/usr/local/bin/terraform"
 )
 
-type cli struct {
+type runnner struct {
 	out io.Writer
+	in  io.Reader
 	err io.Writer
 
 	dataHome string
 }
 
-func (c *cli) Run(args []string) int {
-	if len(args) != 2 {
-		return c.exitErr(fmt.Errorf("usage: %s [version]", args[0]))
+func (r *runnner) Run(args []string) int {
+
+	ui := &cli.ColoredUi{
+		ErrorColor: cli.UiColorRed,
+		WarnColor:  cli.UiColorYellow,
+		Ui: &cli.BasicUi{
+			Reader:      r.in,
+			Writer:      r.out,
+			ErrorWriter: r.err,
+		},
 	}
-	version := args[1]
-	execPATH, err := c.installOrExtractTerraform(version)
+
+	c := cli.NewCLI(args[0], "0.0.1")
+	c.Args = args[1:]
+	factories := command.Factories{
+		UI:       ui,
+		DataHome: r.dataHome,
+	}
+	c.Commands = map[string]cli.CommandFactory{
+		"use": factories.Use,
+	}
+	exitStatus, err := c.Run()
 	if err != nil {
-		return c.exitErr(err)
+		ui.Error(err.Error())
 	}
-	if _, err := os.Lstat(tfPATH); err == nil {
-		if err := os.Remove(tfPATH); err != nil {
-			return c.exitErr(err)
-		}
-	}
-	if err := c.updateSymlink(execPATH, tfPATH); err != nil {
-		return c.exitErr(err)
-	}
-	fmt.Fprintf(c.out, "Switched terraform version to %s\n", version)
-	return 0
-}
-
-func (c *cli) installOrExtractTerraform(version string) (string, error) {
-	tfDataPATH := filepath.Join(c.dataHome, "tfswitch")
-	if err := os.MkdirAll(tfDataPATH, 0755); err != nil {
-		return "", err
-	}
-	execPATH, err := tfinstall.Find(context.Background(), tfinstall.ExactVersion(version, tfDataPATH))
-	if err != nil {
-		return "", err
-	}
-	renamedExecPATH := fmt.Sprintf("%s_%s", execPATH, version)
-	if err := os.Rename(execPATH, renamedExecPATH); err != nil {
-		return "", err
-	}
-	return renamedExecPATH, nil
-}
-
-func (c *cli) updateSymlink(oldname, newname string) error {
-	if _, err := os.Lstat(newname); err == nil {
-		if err := os.Remove(newname); err != nil {
-			return err
-		}
-	}
-	if err := os.Symlink(oldname, newname); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (c *cli) exitErr(err error) int {
-	fmt.Fprintf(c.err, "%v\n", err)
-	return 1
+	return exitStatus
 }
 
 func main() {
@@ -81,11 +54,12 @@ func main() {
 		dataHome = "~/.local/share"
 	}
 
-	c := &cli{
+	r := &runnner{
 		out:      os.Stdout,
 		err:      os.Stderr,
+		in:       os.Stdin,
 		dataHome: dataHome,
 	}
 
-	os.Exit(c.Run(os.Args))
+	os.Exit(r.Run(os.Args))
 }
