@@ -47,7 +47,8 @@ func (r *runnner) Run(args []string) int {
 		DataHome: r.dataHome,
 	}
 	c.Commands = map[string]cli.CommandFactory{
-		"use": factories.Use,
+		"use":  factories.Use,
+		"list": factories.List,
 	}
 	exitStatus, err := c.Run()
 	if err != nil {

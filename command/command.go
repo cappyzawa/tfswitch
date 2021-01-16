@@ -8,9 +8,17 @@ type Factories struct {
 	DataHome string
 }
 
-// Use creates VersionCommand
+// Use creates useCommand
 func (f *Factories) Use() (cli.Command, error) {
 	return &useCommand{
+		ui:       f.UI,
+		dataHome: f.DataHome,
+	}, nil
+}
+
+// List creates listCommand
+func (f *Factories) List() (cli.Command, error) {
+	return &listCommand{
 		ui:       f.UI,
 		dataHome: f.DataHome,
 	}, nil
