@@ -29,7 +29,7 @@ $ tfswitch -h
 Usage: tfswitch [--version] [--help] <command> [<args>]
 
 Available commands are:
-    list    desplay available terraform versions in local.
+    list    display available terraform versions in local.
     use     use specified terraform version.
 ```
 
