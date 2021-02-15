@@ -14,7 +14,7 @@ type listCommand struct {
 }
 
 func (c *listCommand) Help() string {
-	return `This command desplays available versions in local.
+	return `This command displays available versions in local.
 
 Usage:
   tfswitch list
@@ -37,5 +37,5 @@ func (c *listCommand) Run(args []string) int {
 }
 
 func (c *listCommand) Synopsis() string {
-	return "desplay available terraform versions in local."
+	return "display available terraform versions in local."
 }

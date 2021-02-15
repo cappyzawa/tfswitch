@@ -8,7 +8,7 @@
 
 [tfutils/tfenv: Terraform version manager](https://github.com/tfutils/tfenv) is great tool for switching the terraform version used in local.
 
-However, There is an issue that it takes extra time to execute the command. (This is reffered by [terraform executions delayed by ~ 1 second · Issue \#196 · tfutils/tfenv](https://github.com/tfutils/tfenv/issues/196)). If you want to display the terraform version in the prompt, you will have to wait almost a second every time the it is updated.
+However, There is an issue that it takes extra time to execute the command. (This is referred by [terraform executions delayed by ~ 1 second · Issue \#196 · tfutils/tfenv](https://github.com/tfutils/tfenv/issues/196)). If you want to display the terraform version in the prompt, you will have to wait almost a second every time the it is updated.
 
 This tool can also switch the terraform version. This installs binary from https://releases.hashicorp.com/terraform/ if specified version does not found in your machine. 
 `tfenv` runs own script instead of binary, but this tool runs binary directly.
@@ -29,7 +29,7 @@ $ tfswitch -h
 Usage: tfswitch [--version] [--help] <command> [<args>]
 
 Available commands are:
-    list    desplay available terraform versions in local.
+    list    display available terraform versions in local.
     use     use specified terraform version.
 ```
 
