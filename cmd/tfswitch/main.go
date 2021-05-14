@@ -9,10 +9,6 @@ import (
 	"github.com/mitchellh/cli"
 )
 
-const (
-	tfPATH = "/usr/local/bin/terraform"
-)
-
 var (
 	version string
 )

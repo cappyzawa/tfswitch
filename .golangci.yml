@@ -1,0 +1,10 @@
+run:
+  deadline: 30m
+
+output:
+  format: line-number
+
+linters:
+  enable:
+  - megacheck
+  disable-all: true
