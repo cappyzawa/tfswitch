@@ -2,6 +2,7 @@ package main
 
 import (
 	"io"
+	"net/http"
 	"os"
 	"runtime/debug"
 
@@ -9,9 +10,7 @@ import (
 	"github.com/mitchellh/cli"
 )
 
-var (
-	version string
-)
+var version string
 
 type runnner struct {
 	out io.Writer
@@ -22,7 +21,6 @@ type runnner struct {
 }
 
 func (r *runnner) Run(args []string) int {
-
 	ui := &cli.ColoredUi{
 		ErrorColor: cli.UiColorRed,
 		WarnColor:  cli.UiColorYellow,
@@ -39,12 +37,14 @@ func (r *runnner) Run(args []string) int {
 	c := cli.NewCLI(args[0], version)
 	c.Args = args[1:]
 	factories := command.Factories{
-		UI:       ui,
-		DataHome: r.dataHome,
+		UI:         ui,
+		DataHome:   r.dataHome,
+		HttpClient: http.DefaultClient,
 	}
 	c.Commands = map[string]cli.CommandFactory{
-		"use":  factories.Use,
-		"list": factories.List,
+		"use":         factories.Use,
+		"local-list":  factories.LocalList,
+		"remote-list": factories.RemoteList,
 	}
 	exitStatus, err := c.Run()
 	if err != nil {

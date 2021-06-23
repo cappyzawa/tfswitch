@@ -8,20 +8,20 @@ import (
 	"github.com/mitchellh/cli"
 )
 
-type listCommand struct {
+type localListCommand struct {
 	ui       *cli.ColoredUi
 	dataHome string
 }
 
-func (c *listCommand) Help() string {
+func (c *localListCommand) Help() string {
 	return `This command displays available versions in local.
 
 Usage:
-  tfswitch list
+  tfswitch local-list
   `
 }
 
-func (c *listCommand) Run(args []string) int {
+func (c *localListCommand) Run(args []string) int {
 	tfDataPATH := filepath.Join(c.dataHome, "tfswitch")
 	if d, err := os.Stat(tfDataPATH); os.IsNotExist(err) || !d.IsDir() {
 		c.ui.Error(err.Error())
@@ -36,6 +36,6 @@ func (c *listCommand) Run(args []string) int {
 	return 0
 }
 
-func (c *listCommand) Synopsis() string {
+func (c *localListCommand) Synopsis() string {
 	return "display available terraform versions in local."
 }

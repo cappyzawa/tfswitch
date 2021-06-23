@@ -1,11 +1,17 @@
 package command
 
-import "github.com/mitchellh/cli"
+import (
+	"net/http"
+
+	"github.com/mitchellh/cli"
+)
 
 // Factories generates each command
 type Factories struct {
 	UI       *cli.ColoredUi
 	DataHome string
+
+	HttpClient *http.Client
 }
 
 // Use creates useCommand
@@ -16,10 +22,18 @@ func (f *Factories) Use() (cli.Command, error) {
 	}, nil
 }
 
-// List creates listCommand
-func (f *Factories) List() (cli.Command, error) {
-	return &listCommand{
+// LocalList creates localListCommand
+func (f *Factories) LocalList() (cli.Command, error) {
+	return &localListCommand{
 		ui:       f.UI,
 		dataHome: f.DataHome,
+	}, nil
+}
+
+// RemoteList creates remoteListCommand
+func (f *Factories) RemoteList() (cli.Command, error) {
+	return &remoteListCommand{
+		ui:         f.UI,
+		httpClient: f.HttpClient,
 	}, nil
 }
