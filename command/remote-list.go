@@ -28,6 +28,8 @@ Options:
 Examples:
   tfswitch remote-list
   tfswitch remote-list --filter 1.0.0
+  tfswitch remote-list --filter 1.0
+  tfswitch remote-list --filter 1
   `
 }
 

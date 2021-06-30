@@ -27,6 +27,8 @@ Options:
 Examples:
   tfswitch local-list
   tfswitch local-list --filter 1.0.0
+  tfswitch local-list --filter 1.0
+  tfswitch local-list --filter 1
   `
 }
 
