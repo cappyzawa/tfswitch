@@ -1,6 +1,7 @@
 package command
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -19,11 +20,26 @@ func (c *remoteListCommand) Help() string {
 	return `This command displays available versions in remote. (https://releases.hashicorp.com/terraform/)
 
 Usage:
+  tfswitch remote-list [--filter=VERSION]
+
+Options:
+  --filter    Filter by the specified version (Prefix Match)
+
+Examples:
   tfswitch remote-list
+  tfswitch remote-list --filter 1.0.0
   `
 }
 
 func (c *remoteListCommand) Run(args []string) int {
+	var filter string
+	flags := flag.NewFlagSet("", flag.ExitOnError)
+	flags.StringVar(&filter, "filter", "", "Filter by the specified version (Prefix Match)")
+	if err := flags.Parse(args); err != nil {
+		c.ui.Error(err.Error())
+		return 1
+	}
+
 	cc := &client{
 		url: &url.URL{
 			Scheme: "https",
@@ -38,7 +54,9 @@ func (c *remoteListCommand) Run(args []string) int {
 		return 1
 	}
 	for _, v := range versions {
-		c.ui.Output(v)
+		if strings.HasPrefix(v, filter) {
+			c.ui.Output(v)
+		}
 	}
 	return 0
 }
