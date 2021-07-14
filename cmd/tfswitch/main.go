@@ -6,7 +6,7 @@ import (
 	"os"
 	"runtime/debug"
 
-	"github.com/cappyzawa/tfswitch/command"
+	"github.com/cappyzawa/tfswitch/v2/command"
 	"github.com/mitchellh/cli"
 )
 
