@@ -1,4 +1,4 @@
-module github.com/cappyzawa/tfswitch
+module github.com/cappyzawa/tfswitch/v2
 
 go 1.15
 
