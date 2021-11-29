@@ -51,3 +51,13 @@ lrwxr-xr-x  1 cappyzawa  admin  54 Jan 14 20:18 /usr/local/bin/terraform@ -> /Us
 #### Available Environments
 
 * `XDG_DATA_HOME` (Default: `~/.local/share`): The specified version of `terraform` will be saved as `$XDG_DATA_HOME/tfswitch/terraform_[version]`
+
+#### Interactive switch
+
+```bash
+# from remote-list
+$ tfswitch remote-list | fzf --reverse | xargs tfswitch use
+
+# from local-list
+$ tfswitch local-list | fzf --reverse | xargs tfswitch use
+```
