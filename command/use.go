@@ -6,7 +6,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/hashicorp/terraform-exec/tfinstall"
+	goversion "github.com/hashicorp/go-version"
+	install "github.com/hashicorp/hc-install"
+	"github.com/hashicorp/hc-install/product"
+	"github.com/hashicorp/hc-install/releases"
+	"github.com/hashicorp/hc-install/src"
 	"github.com/mitchellh/cli"
 )
 
@@ -49,13 +53,20 @@ func (c *useCommand) Run(args []string) int {
 }
 
 func installOrExtractTerraform(dataHome string, version string) (string, error) {
-
 	// e.g., tfDataPATH = $HOME/.local/share/tfswitch/0.14.4
 	tfDataPATH := filepath.Join(dataHome, "tfswitch", version)
 	if err := os.MkdirAll(tfDataPATH, 0755); err != nil {
 		return "", err
 	}
-	execPATH, err := tfinstall.Find(context.Background(), tfinstall.ExactVersion(version, tfDataPATH))
+	installer := install.NewInstaller()
+	tfVer := goversion.Must(goversion.NewVersion(version))
+	execPATH, err := installer.Ensure(context.Background(), []src.Source{
+		&releases.ExactVersion{
+			Product:    product.Terraform,
+			Version:    tfVer,
+			InstallDir: tfDataPATH,
+		},
+	})
 	if err != nil {
 		return "", err
 	}
