@@ -63,8 +63,9 @@ func getVersion() string {
 
 func main() {
 	dataHome := os.Getenv("XDG_DATA_HOME")
+	home := os.Getenv("HOME")
 	if dataHome == "" {
-		dataHome = "~/.local/share"
+		dataHome = home + "/.local/share"
 	}
 
 	r := &runnner{
