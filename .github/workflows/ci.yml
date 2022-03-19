@@ -1,10 +1,12 @@
 name: go test
 on:
   push:
-    branches:
-    - main
     tags-ignore:
     - "*.*.*"
+    branches:
+    - master
+    - main
+  pull_request:
 jobs:
   test:
     strategy:
