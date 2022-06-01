@@ -6,7 +6,7 @@ require (
 	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/hashicorp/go-version v1.5.0
 	github.com/hashicorp/hc-install v0.3.2
-	github.com/mitchellh/cli v1.1.3
+	github.com/mitchellh/cli v1.1.4
 )
 
 require (
