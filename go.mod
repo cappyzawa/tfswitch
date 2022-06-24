@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/hashicorp/go-version v1.5.0
-	github.com/hashicorp/hc-install v0.3.2
+	github.com/hashicorp/hc-install v0.4.0
 	github.com/mitchellh/cli v1.1.4
 )
 
