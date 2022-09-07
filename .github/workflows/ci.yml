@@ -16,7 +16,7 @@ jobs:
         os: [ubuntu-latest, macOS-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/setup-go@master
+    - uses: actions/setup-go@v3
       with:
         go-version: ${{ matrix.go }}
     - uses: actions/checkout@v3
