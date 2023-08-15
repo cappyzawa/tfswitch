@@ -2,7 +2,6 @@ package command
 
 import (
 	"flag"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -46,7 +45,7 @@ func (c *localListCommand) Run(args []string) int {
 		c.ui.Error(err.Error())
 		return 1
 	}
-	files, _ := ioutil.ReadDir(tfDataPATH)
+	files, _ := os.ReadDir(tfDataPATH)
 	for _, f := range files {
 		if f.IsDir() && strings.HasPrefix(f.Name(), filter) {
 			c.ui.Output(f.Name())
