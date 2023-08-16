@@ -18,7 +18,7 @@ This tool can also switch the terraform version. This installs binary from https
 ### Install
 
 ```bash
-GO111MODULE=on go get github.com/cappyzawa/tfswitch/v2/cmd/tfswitch
+$ go install github.com/cappyzawa/tfswitch/v2/cmd/tfswitch@latest
 ```
 
 or download from [Releases · cappyzawa/tfswitch](https://github.com/cappyzawa/tfswitch/releases).
