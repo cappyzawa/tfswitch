@@ -10,6 +10,10 @@ var _ repository.Client = (*opentofu)(nil)
 
 type opentofu struct{}
 
+func NewClient() repository.Client {
+	return &opentofu{}
+}
+
 func (o *opentofu) Name() string {
 	return "opentofu"
 }

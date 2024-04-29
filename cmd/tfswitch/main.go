@@ -1,11 +1,13 @@
 package main
 
 import (
+	"flag"
 	"io"
 	"os"
 	"runtime/debug"
 
 	"github.com/cappyzawa/tfswitch/v2/internal/di"
+	"github.com/cappyzawa/tfswitch/v2/internal/flags"
 	"github.com/mitchellh/cli"
 )
 
@@ -20,6 +22,10 @@ type runnner struct {
 }
 
 func (r *runnner) Run(args []string) int {
+	var globalFlags flags.Global
+	flag.StringVar(&globalFlags.Target, "target", "terraform", "Target version")
+	flag.Parse()
+
 	ui := &cli.ColoredUi{
 		ErrorColor: cli.UiColorRed,
 		WarnColor:  cli.UiColorYellow,
@@ -34,8 +40,12 @@ func (r *runnner) Run(args []string) int {
 		version = getVersion()
 	}
 	c := cli.NewCLI(args[0], version)
-	c.Args = args[1:]
-	dc := di.NewContainer(ui, r.dataHome)
+	c.Args = flag.Args()
+	dc, err := di.NewContainer(ui, r.dataHome, globalFlags.Target)
+	if err != nil {
+		ui.Error(err.Error())
+		return 1
+	}
 	c.Commands = map[string]cli.CommandFactory{
 		"use":         dc.UseCommand,
 		"local-list":  dc.LocalListCommand,

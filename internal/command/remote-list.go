@@ -4,6 +4,7 @@ import (
 	"flag"
 	"strings"
 
+	"github.com/cappyzawa/tfswitch/v2/internal/flags"
 	"github.com/cappyzawa/tfswitch/v2/internal/repository"
 	"github.com/mitchellh/cli"
 )
@@ -31,10 +32,10 @@ Examples:
 }
 
 func (c *RemoteListCommand) Run(args []string) int {
-	var filter string
-	flags := flag.NewFlagSet("", flag.ExitOnError)
-	flags.StringVar(&filter, "filter", "", "Filter by the specified version (Prefix Match)")
-	if err := flags.Parse(args); err != nil {
+	var f flags.RemoteList
+	fs := flag.NewFlagSet("remote-list", flag.ContinueOnError)
+	fs.StringVar(&f.Filter, "filter", "", "Filter by the specified version (Prefix Match)")
+	if err := fs.Parse(args); err != nil {
 		c.UI.Error(err.Error())
 		return 1
 	}
@@ -45,7 +46,7 @@ func (c *RemoteListCommand) Run(args []string) int {
 		return 1
 	}
 	for _, v := range versions {
-		if strings.HasPrefix(v, filter) {
+		if strings.HasPrefix(v, f.Filter) {
 			c.UI.Output(v)
 		}
 	}
