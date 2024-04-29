@@ -2,11 +2,10 @@ package main
 
 import (
 	"io"
-	"net/http"
 	"os"
 	"runtime/debug"
 
-	"github.com/cappyzawa/tfswitch/v2/internal/command"
+	"github.com/cappyzawa/tfswitch/v2/internal/di"
 	"github.com/mitchellh/cli"
 )
 
@@ -36,15 +35,11 @@ func (r *runnner) Run(args []string) int {
 	}
 	c := cli.NewCLI(args[0], version)
 	c.Args = args[1:]
-	factories := command.Factories{
-		UI:         ui,
-		DataHome:   r.dataHome,
-		HttpClient: http.DefaultClient,
-	}
+	dc := di.NewContainer(ui, r.dataHome)
 	c.Commands = map[string]cli.CommandFactory{
-		"use":         factories.Use,
-		"local-list":  factories.LocalList,
-		"remote-list": factories.RemoteList,
+		"use":         dc.UseCommand,
+		"local-list":  dc.LocalListCommand,
+		"remote-list": dc.RemoteListCommand,
 	}
 	exitStatus, err := c.Run()
 	if err != nil {

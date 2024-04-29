@@ -9,12 +9,12 @@ import (
 	"github.com/mitchellh/cli"
 )
 
-type localListCommand struct {
-	ui       *cli.ColoredUi
-	dataHome string
+type LocalListCommand struct {
+	UI       *cli.ColoredUi
+	DataHome string
 }
 
-func (c *localListCommand) Help() string {
+func (c *LocalListCommand) Help() string {
 	return `This command displays available versions in local.
 
 Usage:
@@ -31,29 +31,29 @@ Examples:
   `
 }
 
-func (c *localListCommand) Run(args []string) int {
+func (c *LocalListCommand) Run(args []string) int {
 	var filter string
 	flags := flag.NewFlagSet("", flag.ExitOnError)
 	flags.StringVar(&filter, "filter", "", "Filter by the specified version (Prefix Match)")
 	if err := flags.Parse(args); err != nil {
-		c.ui.Error(err.Error())
+		c.UI.Error(err.Error())
 		return 1
 	}
 
-	tfDataPATH := filepath.Join(c.dataHome, "tfswitch")
+	tfDataPATH := filepath.Join(c.DataHome, "tfswitch")
 	if d, err := os.Stat(tfDataPATH); os.IsNotExist(err) || !d.IsDir() {
-		c.ui.Error(err.Error())
+		c.UI.Error(err.Error())
 		return 1
 	}
 	files, _ := os.ReadDir(tfDataPATH)
 	for _, f := range files {
 		if f.IsDir() && strings.HasPrefix(f.Name(), filter) {
-			c.ui.Output(f.Name())
+			c.UI.Output(f.Name())
 		}
 	}
 	return 0
 }
 
-func (c *localListCommand) Synopsis() string {
+func (c *LocalListCommand) Synopsis() string {
 	return "display available terraform versions in local."
 }
