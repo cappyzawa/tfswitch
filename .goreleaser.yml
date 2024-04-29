@@ -2,23 +2,17 @@
 # Make sure to check the documentation at http://goreleaser.com
 before:
   hooks:
-    # You may remove this if you don't use go modules.
-    - go mod download
+  # You may remove this if you don't use go modules.
+  - go mod download
 builds:
-  - env:
-      - CGO_ENABLED=0
-    main: ./cmd/tfswitch/main.go
-    ldflags:
-      - '-s -w -X main.version=v{{.Version}}'
-    goos:
-      - linux
-      - darwin
-archives:
-  - replacements:
-      darwin: Darwin
-      linux: Linux
-      386: i386
-      amd64: x86_64
+- env:
+  - CGO_ENABLED=0
+  main: ./cmd/tfswitch/main.go
+  ldflags:
+  - '-s -w -X main.version=v{{.Version}}'
+  goos:
+  - linux
+  - darwin
 checksum:
   name_template: 'checksums.txt'
 snapshot:
@@ -27,5 +21,5 @@ changelog:
   sort: asc
   filters:
     exclude:
-      - '^docs:'
-      - '^test:'
+    - '^docs:'
+    - '^test:'
